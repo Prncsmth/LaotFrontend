@@ -1,5 +1,7 @@
 // Small fetch wrapper for the Express API.
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+// Production: same-site /api (Vercel forwards it to the Render backend, see next.config.ts).
+// Local dev: the Express server on port 4000 (frontend/.env.local can override either).
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:4000/api');
 const TOKEN_KEY = 'fishport_token';
 const USER_KEY = 'fishport_user';
 
