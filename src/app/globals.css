@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/*
+  Design tokens: iOS/macOS shapes and type (Inter ≈ SF Pro, rounded cards, soft shadows)
+  with a calm MONOCHROME palette — paper, ink and warm greys, plus ONE accent
+  (signal orange) used only for small markers and "needs action".
+  The Tailwind palettes used in the app are re-mapped here, so every page follows:
+    slate → warm greys     cyan → ink (primary buttons, links, highlights)
+    emerald / amber / red → muted status colours
+*/
+@theme {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-board), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-paper: #f7f6f2;
+  --color-ink: #111110;
+  --color-accent: #e25026;
+  --color-line: #e4e2db;
+
+  --color-slate-50: #f7f6f2;
+  --color-slate-100: #efeee9;
+  --color-slate-200: #e4e2db;
+  --color-slate-300: #d3d1c8;
+  --color-slate-400: #9c9b94;
+  --color-slate-500: #7f7e77;
+  --color-slate-600: #666560;
+  --color-slate-700: #45443f;
+  --color-slate-800: #2a2a27;
+  --color-slate-900: #111110;
+  --color-slate-950: #000000;
+
+  --color-cyan-50: #efeee9;
+  --color-cyan-100: #e4e2db;
+  --color-cyan-200: #d3d1c8;
+  --color-cyan-500: #45443f;
+  --color-cyan-600: #2a2a27;
+  --color-cyan-700: #111110;
+  --color-cyan-800: #000000;
+  --color-cyan-900: #000000;
+  --color-cyan-950: #000000;
+
+  --color-emerald-50: #edf2ea;
+  --color-emerald-200: #cbd9c3;
+  --color-emerald-300: #b3c8a8;
+  --color-emerald-500: #4f7a45;
+  --color-emerald-600: #3f6a37;
+  --color-emerald-700: #355c2e;
+  --color-emerald-800: #2b4b25;
+  --color-emerald-900: #203a1c;
+
+  --color-amber-50: #f7efe2;
+  --color-amber-200: #ead6b4;
+  --color-amber-300: #dfc290;
+  --color-amber-400: #c98a2b;
+  --color-amber-600: #a8650b;
+  --color-amber-700: #8f5508;
+  --color-amber-800: #744406;
+  --color-amber-900: #5a3505;
+
+  --color-red-50: #f8ece8;
+  --color-red-200: #ecc9bf;
+  --color-red-300: #e2ad9f;
+  --color-red-500: #e25026;
+  --color-red-600: #c9431e;
+  --color-red-700: #b4321f;
+  --color-red-800: #962818;
+  --color-red-900: #741e12;
+
+  --color-violet-50: #efeee9;
+  --color-violet-200: #d3d1c8;
+  --color-violet-800: #45443f;
+
+  --color-sky-50: #efeee9;
+  --color-sky-200: #d3d1c8;
+  --color-sky-300: #c4c2b8;
+  --color-sky-800: #2a2a27;
+  --color-sky-900: #111110;
+
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+
+  --shadow-card: 0 1px 2px rgb(17 17 16 / 0.04), 0 4px 16px rgb(17 17 16 / 0.04);
+  --shadow-pop: 0 10px 40px rgb(17 17 16 / 0.14), 0 2px 8px rgb(17 17 16 / 0.06);
+
+  --animate-sheet: sheet 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  --animate-banner: banner 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  --animate-fade: fade 0.18s ease-out;
+  --animate-flap: flap 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+  --animate-blink: blink 1.4s steps(1, end) infinite;
+  --animate-drift: drift 14s linear infinite;
+
+  @keyframes sheet {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes banner {
+    from { opacity: 0; transform: translateY(-14px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  /* split-flap row turning into place */
+  @keyframes flap {
+    from { opacity: 0; transform: perspective(400px) rotateX(-80deg); }
+    to { opacity: 1; transform: none; }
+  }
+  /* airport "BOARDING" style blink */
+  @keyframes blink {
+    0%, 70% { opacity: 1; }
+    71%, 100% { opacity: 0.25; }
+  }
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: #f7f6f2;
+  color: #111110;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgb(226 80 38 / 0.18);
+}
+
+/* Slim macOS-like scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(17 17 16 / 0.18) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
