@@ -29,7 +29,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <PageHeader title={`Good day, ${user?.name.split(' ')[0] ?? ''}`} subtitle={`${user ? DEPT_LABEL[user.department] : ''} · company-wide view of today's operations`} />
+      <PageHeader title={`Good day, ${user?.name ?? ''}`} subtitle={`${user ? DEPT_LABEL[user.department] : ''} · company-wide view of today's operations`} />
       <ErrorBox error={error} />
       {!data ? (
         <Loading />
