@@ -51,8 +51,8 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid items-start gap-6 2xl:grid-cols-2">
-            <FlightBoard type="arrivals" rows={data.arrivals} />
-            <FlightBoard type="departures" rows={data.departures} />
+            <FlightBoard type="arrivals" rows={data.arrivals} compact />
+            <FlightBoard type="departures" rows={data.departures} compact />
           </div>
 
           <div className="grid items-start gap-6 lg:grid-cols-3">

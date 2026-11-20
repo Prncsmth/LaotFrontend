@@ -88,7 +88,7 @@ function time(iso: string) {
   };
 }
 
-export function FlightBoard({ type, rows: given, take = 8, version = 0 }: { type: 'arrivals' | 'departures'; rows?: BoardRow[]; take?: number; version?: number }) {
+export function FlightBoard({ type, rows: given, take = 8, version = 0, compact = false }: { type: 'arrivals' | 'departures'; rows?: BoardRow[]; take?: number; version?: number; compact?: boolean }) {
   const cfg = CONFIG[type];
   const { user } = useAuth();
   const { data } = useApi<BoardRow[]>(given ? null : `/boards/${type}?take=${take}&v=${version}`);
@@ -98,13 +98,13 @@ export function FlightBoard({ type, rows: given, take = 8, version = 0 }: { type
   return (
     <section className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/4">
       {/* header */}
-      <div className="flex items-end justify-between gap-3 border-b border-line px-5 pt-4 pb-3.5">
+      <div className={`flex items-end justify-between gap-3 border-b border-line ${compact ? 'px-4 pt-3 pb-2.5' : 'px-5 pt-4 pb-3.5'}`}>
         <div>
           <p className="flex items-center gap-2 font-mono text-[10.5px] tracking-[0.18em] text-slate-500 uppercase">
             <span className="h-1.5 w-1.5 bg-accent" aria-hidden />
             {cfg.fig} · {cfg.subtitle}
           </p>
-          <h2 className="mt-1 text-[24px] font-bold tracking-[-0.02em] text-slate-900">
+          <h2 className={`mt-1 font-bold tracking-[-0.02em] text-slate-900 ${compact ? 'text-xl' : 'text-[24px]'}`}>
             {cfg.title}
             {waiting > 0 && <span className="ml-3 align-middle font-mono text-[11px] tracking-widest text-accent uppercase">{waiting} waiting</span>}
           </h2>
@@ -114,11 +114,11 @@ export function FlightBoard({ type, rows: given, take = 8, version = 0 }: { type
 
       {/* rows */}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-140 font-mono text-[12.5px]">
+        <table className={`w-full min-w-140 font-mono ${compact ? 'text-[11.5px]' : 'text-[12.5px]'}`}>
           <thead>
             <tr className="border-b border-line text-left text-[10px] tracking-[0.16em] text-slate-500 uppercase">
               {cfg.cols.map((c, i) => (
-                <th key={c} className={`px-3 py-2 font-normal first:pl-5 last:pr-5 ${i === 4 ? 'text-right' : ''} ${i === 3 ? 'hidden md:table-cell' : ''}`}>
+                <th key={c} className={`px-3 ${compact ? 'py-1.5 first:pl-4 last:pr-4' : 'py-2 first:pl-5 last:pr-5'} font-normal ${i === 4 ? 'text-right' : ''} ${i === 3 ? 'hidden md:table-cell' : ''}`}>
                   {c}
                 </th>
               ))}
@@ -142,19 +142,19 @@ export function FlightBoard({ type, rows: given, take = 8, version = 0 }: { type
                 const t = time(r.time);
                 return (
                   <tr key={r.id} className="animate-flap hover:bg-paper" style={{ animationDelay: `${idx * 50}ms` }}>
-                    <td className="px-3 py-2.5 pl-5 whitespace-nowrap">
+                    <td className={`px-3 whitespace-nowrap ${compact ? 'py-1.5 pl-4' : 'py-2.5 pl-5'}`}>
                       <Flap>{t.hm}</Flap>
                       {t.day && <span className="ml-1.5 text-[10px] text-slate-400">{t.day}</span>}
                     </td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-500">{r.code.replace(/^(\w+)-\d{6}-/, '$1-')}</td>
-                    <td className="max-w-[16rem] truncate px-3 py-2.5 tracking-wide text-slate-900 uppercase" title={r.title}>
+                    <td className={`px-3 whitespace-nowrap text-slate-500 ${compact ? 'py-1.5' : 'py-2.5'}`}>{r.code.replace(/^(\w+)-\d{6}-/, '$1-')}</td>
+                    <td className={`max-w-[16rem] truncate px-3 tracking-wide text-slate-900 uppercase ${compact ? 'py-1.5' : 'py-2.5'}`} title={r.title}>
                       {r.title}
                     </td>
-                    <td className="hidden max-w-48 truncate px-3 py-2.5 text-slate-500 uppercase md:table-cell" title={r.detail}>
+                    <td className={`hidden max-w-48 truncate px-3 text-slate-500 uppercase md:table-cell ${compact ? 'py-1.5' : 'py-2.5'}`} title={r.detail}>
                       {r.detail}
                     </td>
-                    <td className="px-3 py-2.5 text-right text-slate-900 tabular-nums">{r.kg.toLocaleString('en-PH')}</td>
-                    <td className="px-3 py-2.5 pr-5 whitespace-nowrap">
+                    <td className={`px-3 text-right text-slate-900 tabular-nums ${compact ? 'py-1.5' : 'py-2.5'}`}>{r.kg.toLocaleString('en-PH')}</td>
+                    <td className={`px-3 whitespace-nowrap ${compact ? 'py-1.5 pr-4' : 'py-2.5 pr-5'}`}>
                       <span className={`inline-flex items-center gap-1.5 tracking-[0.08em] ${STATUS_INK[r.tone]} ${r.live ? 'animate-blink' : ''}`}>
                         <span className={`h-1.5 w-1.5 ${r.live ? 'rounded-full bg-accent' : 'bg-current'}`} aria-hidden />
                         {r.status}
@@ -169,7 +169,7 @@ export function FlightBoard({ type, rows: given, take = 8, version = 0 }: { type
       </div>
 
       {canAccess(user?.department, cfg.href) && (
-        <div className="flex justify-end border-t border-line bg-slate-50/60 px-5 py-3">
+        <div className={`flex justify-end border-t border-line bg-slate-50/60 px-5 ${compact ? 'py-2' : 'py-3'}`}>
           <LinkButton href={cfg.href}>Open {cfg.linkLabel}</LinkButton>
         </div>
       )}

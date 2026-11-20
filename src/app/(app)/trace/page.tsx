@@ -58,7 +58,7 @@ export default function TracePage() {
 
   return (
     <>
-      <PageHeader title="Lot Traceability" subtitle="Follow one box of fish from the boat to the buyer's invoice — the proof that every department works on the same record." />
+      <PageHeader title="Fish Tracking" subtitle="Follow a fish lot from the boat to the buyer's invoice." />
       <Card className="mb-6">
         <form onSubmit={submit} className="flex flex-wrap gap-2">
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Lot number, e.g. LOT-261109-0001" className="max-w-sm" />

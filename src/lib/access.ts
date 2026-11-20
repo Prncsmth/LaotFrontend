@@ -17,7 +17,7 @@ export type PageDef = { href: string; label: string; icon: IconName; section: st
 export const PAGES: PageDef[] = [
   // Everyone
   { section: 'Overview', href: '/', label: 'Dashboard', icon: 'home', roles: 'ALL' },
-  { section: 'Overview', href: '/trace', label: 'Lot Traceability', icon: 'qr', roles: 'ALL' },
+  { section: 'Overview', href: '/trace', label: 'Fish Tracking', icon: 'qr', roles: 'ALL' },
 
   // Department work
   { section: 'My Work', href: '/landings', label: 'Landing & Grading', icon: 'anchor', roles: ['OPERATIONS'] },
